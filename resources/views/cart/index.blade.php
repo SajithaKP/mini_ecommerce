@@ -22,9 +22,10 @@
                     <hr class="my-4">
                     <p class="text-xl font-bold">Total: ₹{{ $total }}</p>
 
-                    <form action="{{ route('cart.buy') }}" method="POST" class="mt-4">
+                    {{-- <form action="{{ route('cart.buy') }}" method="POST" class="mt-4"> --}}
+                        <form action="{{ route('payment.create') }}" method="POST">
                         @csrf
-                        <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">
+                        <button type="submit" class="px-4 py-2 bg-green-600 text-black rounded hover:bg-green-700">
                             Buy Now
                         </button>
                     </form>
