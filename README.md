@@ -13,6 +13,9 @@ This is a simple Laravel-based e-commerce application built for a machine test. 
 - Order data stored in database
 - Seeded sample products
 - Uses Laravel's validation rules
+- admin can add,edit,delet product
+- user can view and buy product
+- payment gateway(Razorpay)
 
 ---
 
