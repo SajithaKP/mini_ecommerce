@@ -37,6 +37,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/cart/add/{product}', [CartController::class, 'add'])->name('cart.add');
     Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
     Route::post('/cart/buy', [CartController::class, 'buy'])->name('cart.buy');
+    Route::delete('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
 });
 Route::post('/payment', [PaymentController::class, 'createOrder'])->name('payment.create');
 Route::post('/payment/verify', [PaymentController::class, 'verifyPayment'])->name('payment.verify');

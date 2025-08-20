@@ -69,4 +69,20 @@ class CartController extends Controller
         return redirect()->route('products.index')->with('success', 'Purchase complete!');
     }
 
+    public function remove($id)
+{
+    $item = Cart::findOrFail($id);
+
+    // ✅ Increase stock back in products table
+    $product = $item->product;
+    $product->stock += $item->quantity;
+    $product->save();
+
+    // ✅ Remove from cart
+    $item->delete();
+
+    return redirect()->route('cart.index')->with('success', 'Product removed from cart and stock updated.');
+}
+
+
 }

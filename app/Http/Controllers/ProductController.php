@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -15,7 +16,7 @@ class ProductController extends Controller
 
     public function create()
     {
-        return view('admin.products.create');
+        return view('products.create');
     }
 
     public function store(Request $request)
@@ -47,7 +48,7 @@ class ProductController extends Controller
 
     public function edit(Product $product)
     {
-        return view('admin.products.edit', compact('product'));
+        return view('products.edit', compact('product'));
     }
 
     public function update(Request $request, Product $product)
@@ -56,12 +57,30 @@ class ProductController extends Controller
             'name' => 'required|string|max:191',
             'price' => 'required|numeric',
             'stock' => 'required|integer',
-            'description' => 'nullable|string'
+            'description' => 'nullable|string',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
         ]);
 
-        $product->update($request->all());
+        $product->name = $request->name;
+        $product->price = $request->price;
+        $product->stock = $request->stock;
+        $product->description = $request->description;
+
+        if ($request->hasFile('image')) {
+            // delete old image if exists
+            if ($product->image && Storage::disk('public')->exists($product->image)) {
+                Storage::disk('public')->delete($product->image);
+            }
+
+            $path = $request->file('image')->store('products', 'public');
+            $product->image = $path;
+        }
+
+        $product->save();
+
         return redirect()->route('admin.products')->with('success', 'Product updated successfully.');
     }
+
 
     public function destroy(Product $product)
     {
